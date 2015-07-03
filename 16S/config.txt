@@ -1,0 +1,22 @@
+#####################
+####software path
+#####################
+DIR_Pac	: "/data_center_01/home/NEOLINE/liangzebin/pipeline/16S";
+DIR_Soft : "/data_center_01/soft";
+
+#00_split_library
+split_library			= DIR_Pac/src/00_01_split_library.pl;
+
+
+#16s soft
+usearch					= /data_center_01/home/NEOLINE/wuchunyan/software/usearch7.0.1090_i86linux32
+
+#scripts
+uc2table				= DIR_Pac/src/uc2table.pl
+fasta_number			= DIR_Pac/src/fasta_number.py
+
+#16s ref
+greengene_97_otus		= DIR_Pac/ref/97_otus.fasta
+greengene_97_taxonomy	= DIR_Pac/ref/97_otu_taxonomy.txt
+gold_otus				= DIR_Pac/ref/rdp_gold.fa
+

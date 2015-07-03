@@ -1,0 +1,41 @@
+primer = {
+    'HXT': {
+        '16S':{
+            'forward':'CCTACGGGNGGCWGCAG',
+            'reverse':'GACTACHVGGGTATCTAATCC',
+        },
+        'ITS':{
+            'forward':'GCATCGATGAAGAACGCAGC',
+            'reverse':'TCCTCCGCTTATTGATATGC',
+        },
+    },
+    'Self': {
+        '16S':{
+            'forward':'GGACTACHVGGGTWTCTAAT',
+            'reverse':'ACTCCTACGGGAGGCAGCAG',
+        },
+        'ITS':{
+            'forward':'TCCTCCGCTTATTGATATGC',
+            'reverse':'GCATCGATGAAGAACGCAGC',
+        },
+    },
+}
+
+barcode = {
+    'HXT':{
+        'forward':[None,'ATCACG','CGATGT','TTAGGC','TGACCA','ACAGTG','GCCAAT','CAGATC','ACTTGA','GATCAG','TAGCTT','GGCTAC','CTTGTA'],
+        'reverse':[None,'ATCACG','CGATGT','TTAGGC','TGACCA','ACAGTG','GCCAAT','CAGATC','ACTTGA','GATCAG','TAGCTT','GGCTAC','CTTGTA'],
+    },
+    'Self':{
+        'reverse':[None,'CCTAAACTACGG','TGCAGATCCAAC','CCATCACATAGG','GTGGTATGGGAG','ACTTTAAGGGTG','GAGCAACATCCT',
+                        'TGTTGCGTTTCT','ATGTCCGACCAA','AGGTACGCAATT','GTTACGTGGTTG','TACCGCCTCGGA','CGTAAGATGCCT',
+                        'ACAGCCACCCAT','TGTCTCGCAAGC','GAGGAGTAAAGC','TACCGGCTTGCA','ATCTAGTGGCAA','CCAGGGACTTCT',
+                        'CACCTTACCTTA','ATAGTTAGGGCT','GCACTTCATTTC','TTAACTGGAAGC','CGCGGTTACTAA','GAGACTATATGC',],
+        'forward':[None,'CCTAAACTACGG','TGCAGATCCAAC','CCATCACATAGG','GTGGTATGGGAG','ACTTTAAGGGTG','GAGCAACATCCT',
+                        'TGTTGCGTTTCT','ATGTCCGACCAA','AGGTACGCAATT','GTTACGTGGTTG','TACCGCCTCGGA','CGTAAGATGCCT',
+                        'ACAGCCACCCAT','TGTCTCGCAAGC','GAGGAGTAAAGC','TACCGGCTTGCA','ATCTAGTGGCAA','CCAGGGACTTCT',
+                        'CACCTTACCTTA','ATAGTTAGGGCT','GCACTTCATTTC','TTAACTGGAAGC','CGCGGTTACTAA','GAGACTATATGC',],
+    },
+}
+
+pandaseq_soft = 'pandaseq'
