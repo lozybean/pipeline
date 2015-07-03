@@ -1,9 +1,7 @@
 import os
 import re
 import sys
-
-read_temp = '''%(path)s/%(sample)s.rmHost.%(type)s.fq'''
-insert_temp = '''%(path)s/%(sample)s.insert'''
+from templates import read_temp,insert_temp
 
 def parse_insert(file):
     for line in open(file):
