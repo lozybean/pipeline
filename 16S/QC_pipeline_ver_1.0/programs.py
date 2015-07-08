@@ -12,7 +12,12 @@ def fq_reads_num(fq_file):
     wc_out = os.popen('wc -l %s'%fq_file).read().strip()
     result = int(re.search('^(\d+)',wc_out).group(1)) / 4
     return int(result)
-
+def N_count(self):
+    N_count = 0;
+    for char in self.seq:
+        if char == 'N':
+            N_count += 1
+    return N_count
 def Q_ave(self):
     Q_sum = 0
     for qlist in  self.letter_annotations.itervalues():
