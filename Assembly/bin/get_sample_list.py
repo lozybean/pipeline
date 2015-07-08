@@ -18,7 +18,6 @@ def main(dirs,if_pro):
         out = open('sample_without_insert.list','w')
     for sample in open(sample_list):
         sample = sample.strip()
-        sample = 'Sample_%s'%sample
         read1 = read_temp%{'path':reads_dir,'sample':sample,'type':'1'}
         read2 = read_temp%{'path':reads_dir,'sample':sample,'type':'2'}
         reads = read_temp%{'path':reads_dir,'sample':sample,'type':'single'}

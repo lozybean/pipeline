@@ -53,7 +53,7 @@ soap_build_index_template='''if [ ! -L %(index)s ];then ln -s %(ori_file)s %(ind
 '''
 soap_template='''/data_center_03/USER/lih/Pipeline/soap/soap2.21release/soap -a %(fq1)s -b %(fq2)s -D %(index)s.index -m 0 -x 1000 -o %(pe)s -2 %(se)s
 '''
-insert_template'''
+insert_template = '''
 /data_center_01/home/NEOLINE/liangzebin/pipeline/Assembly/bin/soap2_insert.pl --prefix %(insert_out)s %(pe)s
 '''
 
