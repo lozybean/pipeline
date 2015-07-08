@@ -1,0 +1,9 @@
+Raw_reads	250
+Raw_bases	45000
+Raw_Q20_ratio	96.3%
+Clean_reads(PE)	183
+Clean_bases(PE)	32537
+Clean_reads(SE)	32
+Clean_reads(SE)	2880
+Clean_bases(ALL)	35417
+Clean_Q20_ratio	98.3%

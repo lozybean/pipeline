@@ -1,0 +1,7 @@
+#####################
+####software path
+#####################
+
+#QC by liangzb ver 2.4
+QC	= /data_center_01/home/NEOLINE/liangzebin/pipeline/QC/bin/QC
+
