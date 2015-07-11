@@ -10,13 +10,14 @@ from settings import primer,pandaseq_soft
 from programs import *
 
 Result = collections.namedtuple("Result","compact sample_name HQ_fq")
+repushed_times = {}
 
 def parse_sam_barcode_file(sam_barcode_file):
     for line in open(sam_barcode_file):
-        yield line.strip().split('\t')
+        yield re.split('\s+',line.strip())
 
 def proc(compact,sample_name,work_path,lib_method,data_type):
-#    return Result(compact,sample_name,'temp')
+    #return Result(compact,sample_name,'temp')
     split_path = '%s/Split'%work_path
     QC_path = '%s/QC'%work_path
     compact_path = '%s/%s'%(QC_path,compact)
@@ -36,6 +37,7 @@ def proc(compact,sample_name,work_path,lib_method,data_type):
     return Result(compact,sample_name,high_quality_fq)
 
 def worker(work_path,jobs,results):
+    global repushed_times
     while True:
         try:
             compact,sample_name,lib_method,data_type = jobs.get()
@@ -45,8 +47,16 @@ def worker(work_path,jobs,results):
                 results.put(result)
             except:
                 sys.stderr.write('Process %s is FIALED !!! %s/%s may be some problem!\n'%(os.getpid(),compact,sample_name))
-                jobs.put((compact,sample_name,lib_method,data_type))
-                sys.stderr.write('The job is repushed into the queue,with compact:%s sample_name:%s\n'%(compact,sample_name))
+                if compact not in repushed_times:
+                    repushed_times[compact] = {}
+                if sample_name not in repushed_times[compact]:
+                    repushed_times[compact][sample_name] = 0
+                if repushed_times[compact][sample_name] < 5:
+                    jobs.put((compact,sample_name,lib_method,data_type))
+                    repushed_times[compact][sample_name] += 1
+                    sys.stderr.write('The job is repushed into the queue,with compact:%s sample_name:%s\n'%(compact,sample_name))
+                else:
+                    sys.stderr.write('The job is repushed more than 5 times,stopped! compact:%s sample_name:%s\n'%(compact,sample_name))
         finally:
             jobs.task_done()
 

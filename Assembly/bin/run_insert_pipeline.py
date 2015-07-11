@@ -1,14 +1,15 @@
 import sys
 import os
+import re
 from templates import soap_build_index_template,soap_template,insert_template
 
 def parse_reads(file):
     for line in open(file):
-        tabs = line.strip().split('\s+')
+        tabs = re.split('\s+',line.strip())
         if len(tabs) == 3:
             (sample,read1,read2) = tabs
         elif len(tabs) ==4:
-            (sample.read1,read2,reads) = tabs
+            (sample,read1,read2,reads) = tabs
         yield (sample,read1,read2)
 def mkdirs(work_dir):
     sub_dirs = ['soap/insert','soap/index','soap/result','soap/cmd','soap/log']
@@ -19,9 +20,9 @@ def mkdirs(work_dir):
     return dirs
 
 def main(work_dir,sample_list,kmer):
-    qsub = open('%s/soap2_insert.qsub'%work_dir)
+    qsub = open('%s/soap2_insert.qsub'%work_dir,'w')
 
-    insert_dir,index_dir,soap_result_dir,cmd_dir,log_dir = mkdirs()
+    insert_dir,index_dir,soap_result_dir,cmd_dir,log_dir = mkdirs(work_dir)
     for sample,read1,read2 in parse_reads(sample_list):
 
         ass_seq = '%s/ass_result/%s_K_%s.scafSeq'%(work_dir,sample,kmer)
@@ -47,10 +48,11 @@ def main(work_dir,sample_list,kmer):
         log_pre = '%s/%s'%(log_dir,sample)
         log_e = '%s.e'%log_pre
         log_o = '%s.o'%log_pre
-        qsub.write('qsub -cwd -l vf=10G -q all.q -e %s -o %s %s'%(log_e,log_o,cmd_file))
+        qsub.write('qsub -cwd -l vf=10G -q all.q -e %s -o %s %s\n'%(log_e,log_o,cmd_file))
         
 if __name__ == '__main__':
     sys.argv.pop(0)
-    kmer,sample_list = sys.argv
-    work_dir = 'pre_K_%s'%kmer
+    work_dir,kmer,sample_list = sys.argv
+    work_dir = os.path.abspath(work_dir)
+    work_dir = '%s/pre_K_%s'%(work_dir,kmer)
     main(work_dir,sample_list,kmer)

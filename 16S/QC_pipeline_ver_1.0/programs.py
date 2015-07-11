@@ -42,7 +42,7 @@ def QC(file,out_file,out_stat_file,data_type):
         out.write(record.format('fastq'))
         high_count += 1
     high_ratio = high_count / count * 100
-    out_stat.write('%s\t%s\t%s\t%2.2fi%%\n'%(data_type,count,high_count,high_ratio))
+    out_stat.write('%s\t%s\t%s\t%2.2f%%\n'%(data_type,count,high_count,high_ratio))
 
 class MyList(list):
     def __str__(self):
@@ -83,25 +83,29 @@ class SubThread():
         lock.acquire()
         total_reads += raw_reads
         data_type = tabs.pop(0)
-        ratio = int(tabs[1]) / raw_reads * 100
-        tabs = str(MyList(tabs))
-        if not SubThread.ret.has_key(compact):
-            SubThread.ret[compact] = {}
-        if not SubThread.ret[compact].has_key(data_type):
-            SubThread.ret[compact][data_type] = {}
-        if not SubThread.ret[compact][data_type].has_key(sample_name):
-            SubThread.ret[compact][data_type][sample_name] = ''
-        SubThread.ret[compact][data_type][sample_name] = '%s\t%s\t%2.2f%%'%(raw_reads,tabs,ratio)
+        try:
+            ratio = int(tabs[1]) / raw_reads * 100
+            tabs = str(MyList(tabs))
+            if not SubThread.ret.has_key(compact):
+                SubThread.ret[compact] = {}
+            if not SubThread.ret[compact].has_key(data_type):
+                SubThread.ret[compact][data_type] = {}
+            if not SubThread.ret[compact][data_type].has_key(sample_name):
+                SubThread.ret[compact][data_type][sample_name] = ''
+            SubThread.ret[compact][data_type][sample_name] = '%s\t%s\t%2.2f%%'%(raw_reads,tabs,ratio)
 #        out.write('%s\t%s\t%s\t%s\t%s\t%2.2f%%\n'%(compact,sample_name,data_type,raw_reads,tabs,ratio))
-        lock.release()
-        return 
+        except:
+            pass
+        finally:
+            lock.release()
+            return 
 #    sys.stderr.write('thread %s finished doing with %s %s\n'%(threading.currentThread().ident,compact,sample_name))
 
 total_reads = 0
 
 def parse_sort_all_sample(file):
     for line in open(file):
-        tabs = line.strip().split('\t')
+        tabs = re.split('\s+',line.strip())
         yield tabs
 
 def reads_stat_all(work_path,original_path):
@@ -145,6 +149,9 @@ def reads_stat_all(work_path,original_path):
     
     sort_sample_file = '%s/Split/sam_barcode.all'%work_path
     for (compact,sample_name,barcode_info,data_type) in parse_sort_all_sample(sort_sample_file):
+        if ( compact not in out_hash ) or (data_type not in out_hash[compact]) or (sample_name not in out_hash[compact][data_type]):
+            out.write('%s\t%s\t%s\t%s\n'%(compact,sample_name,data_type,'None'))
+            continue
         out.write('%s\t%s\t%s\t%s\n'%(compact,sample_name,data_type,out_hash[compact][data_type][sample_name]))
 
     sys.stderr.write('Unaligned stating ...\n')
